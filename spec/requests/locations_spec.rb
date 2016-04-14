@@ -27,6 +27,12 @@ describe "Locations API" do
   end
 
   describe "GET /locations without locations" do
+    it "fails with unauthorized headers" do
+      get "/locations", {}, unauthorized_headers
+
+      expect(response.status).to eq 401
+    end
+
     it "returns an emtpy data array" do
 
       get "/locations", {}, authorized_headers
@@ -54,6 +60,8 @@ describe "Locations API" do
 
       expect(body['data']).not_to eq nil
       body['data'].each do |thing|
+        puts "This is the thing"
+        puts thing
         expect(thing['id']).not_to eq nil
         expect(thing['type']).not_to eq nil
         expect(thing['links']).not_to eq nil
